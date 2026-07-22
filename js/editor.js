@@ -15,6 +15,11 @@ const updateScale = () => {
   scaleControl.value = `${currentScale}%`;
 };
 
+const resetScale = () => {
+  currentScale = 100;
+  updateScale();
+};
+
 scaleSmaller.addEventListener('click', () => {
   if (currentScale > MIN_SCALE) {
     currentScale -= SCALE_STEP;
@@ -29,4 +34,4 @@ scaleBigger.addEventListener('click', () => {
   }
 });
 
-export { updateScale, currentScale };
+export { resetScale, updateScale };

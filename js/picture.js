@@ -34,4 +34,5 @@ const renderPictures = (pictures) => {
   container.innerHTML = '';
   container.appendChild(fragment);
 };
+
 export { renderPictures };

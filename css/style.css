@@ -1374,7 +1374,6 @@ main {
   }
 
   .pictures {
-    -ms-grid-columns: (1fr)[5];
     grid-template-columns: repeat(5, 1fr);
   }
 
@@ -1395,7 +1394,6 @@ main {
   }
 
   .pictures {
-    -ms-grid-columns: (1fr)[3];
     grid-template-columns: repeat(3, 1fr);
   }
 
