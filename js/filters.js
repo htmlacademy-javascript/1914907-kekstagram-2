@@ -6,15 +6,15 @@ const filterDiscussed = document.querySelector('#filter-discussed');
 const filterContainer = document.querySelector('.img-filters');
 
 let currentPictures = [];
-let activeFilter = 'default';
+let activeFilter = 'filter-default';
 
 const getRandomPictures = (pictures) => {
-  const shuffled = [...pictures];
-  for (let i = shuffled.length - 1; i > 0; i--) {
+  const shuffledPictures = [...pictures];
+  for (let i = shuffledPictures.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [shuffledPictures[i], shuffledPictures[j]] = [shuffledPictures[j], shuffledPictures[i]];
   }
-  return shuffled.slice(0, 10);
+  return shuffledPictures.slice(0, 10);
 };
 
 const getDiscussedPictures = (pictures) => [...pictures].sort((a, b) => b.comments.length - a.comments.length);
@@ -63,9 +63,13 @@ const setActiveFilter = (filterId) => {
   debouncedRender();
 };
 
-filterDefault.addEventListener('click', () => setActiveFilter('filter-default'));
-filterRandom.addEventListener('click', () => setActiveFilter('filter-random'));
-filterDiscussed.addEventListener('click', () => setActiveFilter('filter-discussed'));
+const onFilterDefaultClick = () => setActiveFilter('filter-default');
+const onFilterRandomClick = () => setActiveFilter('filter-random');
+const onFilterDiscussedClick = () => setActiveFilter('filter-discussed');
+
+filterDefault.addEventListener('click', onFilterDefaultClick);
+filterRandom.addEventListener('click', onFilterRandomClick);
+filterDiscussed.addEventListener('click', onFilterDiscussedClick);
 
 const showFilters = (pictures) => {
   currentPictures = pictures;

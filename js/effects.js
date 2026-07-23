@@ -1,9 +1,3 @@
-const preview = document.querySelector('.img-upload__preview img');
-const effectLevelSlider = document.querySelector('.effect-level__slider');
-const effectLevelValue = document.querySelector('.effect-level__value');
-const effectLevelContainer = document.querySelector('.img-upload__effect-level');
-const effectInputs = document.querySelectorAll('.effects__radio');
-
 const EFFECTS = {
   none: { filter: 'none', min: 0, max: 1, step: 0.1, unit: '' },
   chrome: { filter: 'grayscale', min: 0, max: 1, step: 0.1, unit: '' },
@@ -12,6 +6,12 @@ const EFFECTS = {
   phobos: { filter: 'blur', min: 0, max: 3, step: 0.1, unit: 'px' },
   heat: { filter: 'brightness', min: 1, max: 3, step: 0.1, unit: '' },
 };
+
+const preview = document.querySelector('.img-upload__preview img');
+const effectLevelSlider = document.querySelector('.effect-level__slider');
+const effectLevelValue = document.querySelector('.effect-level__value');
+const effectLevelContainer = document.querySelector('.img-upload__effect-level');
+const effectInputs = document.querySelectorAll('.effects__radio');
 
 let currentEffect = 'none';
 let slider = null;
@@ -73,17 +73,19 @@ const resetEffects = () => {
   }
 };
 
+const onEffectChange = (evt) => {
+  currentEffect = evt.target.value;
+  const effect = EFFECTS[currentEffect];
+  if (effect && effect.filter !== 'none') {
+    updateSliderOptions(currentEffect);
+    slider.set(effect.max);
+  } else {
+    resetEffects();
+  }
+};
+
 effectInputs.forEach((input) => {
-  input.addEventListener('change', () => {
-    currentEffect = input.value;
-    const effect = EFFECTS[currentEffect];
-    if (effect && effect.filter !== 'none') {
-      updateSliderOptions(currentEffect);
-      slider.set(effect.max);
-    } else {
-      resetEffects();
-    }
-  });
+  input.addEventListener('change', onEffectChange);
 });
 
 export { applyEffect, updateSliderOptions, resetEffects };

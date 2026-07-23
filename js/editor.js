@@ -20,18 +20,21 @@ const resetScale = () => {
   updateScale();
 };
 
-scaleSmaller.addEventListener('click', () => {
+const onScaleSmallerClick = () => {
   if (currentScale > MIN_SCALE) {
     currentScale -= SCALE_STEP;
     updateScale();
   }
-});
+};
 
-scaleBigger.addEventListener('click', () => {
+const onScaleBiggerClick = () => {
   if (currentScale < MAX_SCALE) {
     currentScale += SCALE_STEP;
     updateScale();
   }
-});
+};
+
+scaleSmaller.addEventListener('click', onScaleSmallerClick);
+scaleBigger.addEventListener('click', onScaleBiggerClick);
 
 export { resetScale, updateScale };

@@ -1,3 +1,5 @@
+const COMMENTS_STEP = 5;
+
 const bigPicture = document.querySelector('.big-picture');
 const bigImage = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -6,9 +8,9 @@ const commentsList = bigPicture.querySelector('.social__comments');
 const commentCount = bigPicture.querySelector('.social__comment-shown-count');
 const totalComments = bigPicture.querySelector('.social__comment-total-count');
 const cancelButton = bigPicture.querySelector('.big-picture__cancel');
-
 const commentCountBlock = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
+
 commentCountBlock.classList.add('hidden');
 commentsLoader.classList.add('hidden');
 
@@ -35,11 +37,17 @@ const createCommentElement = (commentData) => {
 
 let currentComments = [];
 let shownCommentsCount = 0;
-const COMMENTS_STEP = 5;
 
 const renderComments = () => {
   const totalCommentsCount = currentComments.length;
   totalComments.textContent = totalCommentsCount;
+
+  if (totalCommentsCount === 0) {
+    commentsList.innerHTML = '';
+    commentCount.textContent = '0';
+    commentsLoader.classList.add('hidden');
+    return;
+  }
 
   const endIndex = Math.min(shownCommentsCount + COMMENTS_STEP, totalCommentsCount);
 
@@ -77,7 +85,7 @@ const openBigPicture = (pictureData) => {
   likesCount.textContent = pictureData.likes;
   captionText.textContent = pictureData.description;
 
-  currentComments = pictureData.comments;
+  currentComments = pictureData.comments || [];
   shownCommentsCount = 0;
   renderComments();
 
@@ -87,17 +95,23 @@ const openBigPicture = (pictureData) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-cancelButton.addEventListener('click', closeBigPicture);
+const onCancelButtonClick = () => {
+  closeBigPicture();
+};
 
-bigPicture.addEventListener('click', (evt) => {
+const onOverlayClick = (evt) => {
   if (evt.target === bigPicture) {
     closeBigPicture();
   }
-});
+};
 
-commentsLoader.addEventListener('click', () => {
+const onCommentsLoaderClick = () => {
   shownCommentsCount += COMMENTS_STEP;
   renderComments();
-});
+};
+
+cancelButton.addEventListener('click', onCancelButtonClick);
+bigPicture.addEventListener('click', onOverlayClick);
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 export { openBigPicture };

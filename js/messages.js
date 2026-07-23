@@ -1,9 +1,12 @@
 const successTemplate = document.querySelector('#success');
 const errorTemplate = document.querySelector('#error');
 
+let isMessageOpen = false;
+
 const showMessage = (template) => {
   const message = template.content.cloneNode(true);
   document.body.append(message);
+  isMessageOpen = true;
 
   const closeMessage = () => {
     const currentMessage = document.querySelector('.success, .error');
@@ -11,6 +14,7 @@ const showMessage = (template) => {
       currentMessage.remove();
     }
     document.removeEventListener('keydown', onEscKeydown);
+    isMessageOpen = false;
   };
 
   function onEscKeydown(evt) {
@@ -21,11 +25,13 @@ const showMessage = (template) => {
 
   document.addEventListener('keydown', onEscKeydown);
 
-  message.addEventListener('click', (evt) => {
-    if (evt.target === message || evt.target.closest('.success, .error')) {
+  const onOverlayClick = (evt) => {
+    if (evt.target === message) {
       closeMessage();
     }
-  });
+  };
+
+  message.addEventListener('click', onOverlayClick);
 
   setTimeout(() => {
     const successButton = document.querySelector('.success__button');
@@ -49,4 +55,4 @@ const showErrorMessage = () => {
   showMessage(errorTemplate);
 };
 
-export { showSuccessMessage, showErrorMessage };
+export { showSuccessMessage, showErrorMessage, isMessageOpen };

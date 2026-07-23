@@ -1,5 +1,7 @@
 import { sendPicture } from './api.js';
-import { showSuccessMessage, showErrorMessage } from './messages.js';
+import { showSuccessMessage, showErrorMessage, isMessageOpen } from './messages.js';
+import { resetScale } from './editor.js';
+import { resetEffects } from './effects.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
@@ -87,6 +89,8 @@ const resetForm = () => {
   clearError(hashtagsInput);
   clearError(descriptionInput);
   submitButton.disabled = false;
+  resetScale();
+  resetEffects();
 };
 
 const showEditor = (file) => {
@@ -106,7 +110,7 @@ const closeEditor = () => {
   resetForm();
 };
 
-uploadInput.addEventListener('change', (evt) => {
+const onUploadChange = (evt) => {
   const file = evt.target.files[0];
   if (!file) {
     return;
@@ -115,18 +119,27 @@ uploadInput.addEventListener('change', (evt) => {
   if (isValidType) {
     showEditor(file);
   }
-});
+};
 
-document.querySelector('#upload-cancel').addEventListener('click', closeEditor);
+const onCancelButtonClick = () => {
+  closeEditor();
+};
 
-document.addEventListener('keydown', (evt) => {
+const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape' && !overlay.classList.contains('hidden')) {
+    if (isMessageOpen) {
+      return;
+    }
     const isInputFocused = document.activeElement.closest('.text__hashtags, .text__description');
     if (!isInputFocused) {
       closeEditor();
     }
   }
-});
+};
+
+uploadInput.addEventListener('change', onUploadChange);
+document.querySelector('#upload-cancel').addEventListener('click', onCancelButtonClick);
+document.addEventListener('keydown', onDocumentKeydown);
 
 hashtagsInput.addEventListener('input', () => {
   const value = hashtagsInput.value;
