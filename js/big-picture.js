@@ -8,10 +8,8 @@ const commentsList = bigPicture.querySelector('.social__comments');
 const commentCount = bigPicture.querySelector('.social__comment-shown-count');
 const totalComments = bigPicture.querySelector('.social__comment-total-count');
 const cancelButton = bigPicture.querySelector('.big-picture__cancel');
-const commentCountBlock = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
-commentCountBlock.classList.add('hidden');
 commentsLoader.classList.add('hidden');
 
 const createCommentElement = (commentData) => {

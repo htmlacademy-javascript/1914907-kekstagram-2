@@ -25,24 +25,26 @@ const showMessage = (template) => {
 
   document.addEventListener('keydown', onEscKeydown);
 
-  const onOverlayClick = (evt) => {
+  const onMessageOverlayClick = (evt) => {
     if (evt.target === message) {
       closeMessage();
     }
   };
 
-  message.addEventListener('click', onOverlayClick);
+  message.addEventListener('click', onMessageOverlayClick);
 
   setTimeout(() => {
     const successButton = document.querySelector('.success__button');
     const errorButton = document.querySelector('.error__button');
 
     if (successButton) {
-      successButton.addEventListener('click', closeMessage);
+      const onSuccessButtonClick = () => closeMessage();
+      successButton.addEventListener('click', onSuccessButtonClick);
     }
 
     if (errorButton) {
-      errorButton.addEventListener('click', closeMessage);
+      const onErrorButtonClick = () => closeMessage();
+      errorButton.addEventListener('click', onErrorButtonClick);
     }
   }, 0);
 };
